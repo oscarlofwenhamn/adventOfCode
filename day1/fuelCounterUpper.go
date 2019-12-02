@@ -9,6 +9,8 @@ import (
 )
 
 // Boring stuff
+// Read fileName into byte-array and return string representation,
+// keeping an eye out for errors.
 func readFile(fileName string) string {
 	dat, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -17,10 +19,10 @@ func readFile(fileName string) string {
 	return string(dat[:])
 }
 
-func splitAndConvertString(str string) []int {
-	split := strings.Split(str, "\n")
-	array := make([]int, len(split))
-	for i, s := range split {
+// Convert each element of string array to int and save in new array
+func arrayStringToInt(str []string) []int {
+	array := make([]int, len(str))
+	for i, s := range str {
 		if len(s) == 0 {
 			continue
 		}
@@ -33,8 +35,7 @@ func splitAndConvertString(str string) []int {
 	return array
 }
 
-// End boring stuff
-// Begin funn-er stuff
+// Recursively figure out total fuel requirement of module and the fuel that follows
 func recursiveCounter(mass int) int {
 	var extraFuel int
 	extraFuel = fuelCounter(mass)
@@ -44,6 +45,7 @@ func recursiveCounter(mass int) int {
 	return 0
 }
 
+// Calculate required mass of fuel required based on mass input
 func fuelCounter(mass int) int {
 	if mass <= 0 {
 		return 0
@@ -52,12 +54,16 @@ func fuelCounter(mass int) int {
 	return int(fuel)
 }
 
+// Read input from file, split string and convert to int array. Calculate and sum up required
+// fuel for each module using recursive counter.
 func main() {
 	massString := readFile("./input.txt")
-	massList := splitAndConvertString(massString)
+	massList := arrayStringToInt(strings.Split(massString, "\n"))
 	var fuel int
 	for _, mass := range massList {
 		fuel += recursiveCounter(mass)
 	}
 	fmt.Println(fuel)
 }
+
+// 5099916
