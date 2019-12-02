@@ -8,31 +8,7 @@ import (
 	"strings"
 )
 
-func main() {
-	// var mass int = 10
-	massString := readFile("./input.txt")
-	massList := splitString(massString)
-	var fuel int
-	for _, mass := range massList {
-		fuel += fuelCounter(mass)
-	}
-
-	// for diff > 0 {
-	// 	diff =
-	// }
-	fmt.Println(fuel)
-}
-
-func fuelCounter(mass int) int {
-	var fuelTot float64
-	if mass == 0 {
-		return 0
-	}
-	fuel := math.Trunc(float64(mass)/3) - 2
-	fuelTot += fuel
-	return int(fuelTot)
-}
-
+// Boring stuff
 func readFile(fileName string) string {
 	dat, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -41,7 +17,7 @@ func readFile(fileName string) string {
 	return string(dat[:])
 }
 
-func splitString(str string) []int {
+func splitAndConvertString(str string) []int {
 	split := strings.Split(str, "\n")
 	array := make([]int, len(split))
 	for i, s := range split {
@@ -55,4 +31,33 @@ func splitString(str string) []int {
 		array[i] = j
 	}
 	return array
+}
+
+// End boring stuff
+// Begin funn-er stuff
+func recursiveCounter(mass int) int {
+	var extraFuel int
+	extraFuel = fuelCounter(mass)
+	if extraFuel > 0 {
+		return extraFuel + recursiveCounter(extraFuel)
+	}
+	return 0
+}
+
+func fuelCounter(mass int) int {
+	if mass <= 0 {
+		return 0
+	}
+	fuel := math.Trunc(float64(mass)/3) - 2
+	return int(fuel)
+}
+
+func main() {
+	massString := readFile("./input.txt")
+	massList := splitAndConvertString(massString)
+	var fuel int
+	for _, mass := range massList {
+		fuel += recursiveCounter(mass)
+	}
+	fmt.Println(fuel)
 }
