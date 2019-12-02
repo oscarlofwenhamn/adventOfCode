@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-// Boring stuff
 // Read fileName into byte-array and return string representation,
 // keeping an eye out for errors.
 func readFile(fileName string) string {
@@ -65,5 +64,3 @@ func main() {
 	}
 	fmt.Println(fuel)
 }
-
-// 5099916
