@@ -26,13 +26,13 @@ func main() {
 	check(err)
 	data, err := os.ReadFile(filePath)
 	check(err)
-	var stringArr = strings.Split(string(data), "\n")
+	stringArr := strings.Split(string(data), "\n")
 	var intArr []int
 	for _, val := range stringArr {
 		if val == "" {
 			continue
 		}
-		var intVal, _ = strconv.Atoi(val)
+		intVal, _ := strconv.Atoi(val)
 		intArr = append(intArr, intVal)
 	}
 	result := measureDepthIncreases(intArr, windowSize)
@@ -48,7 +48,7 @@ func biggerThan(a, b int) bool {
 }
 
 func measureDepthIncreases(data []int, windowSize int) int {
-	var count = 0
+	count := 0
 
 	previousWindow := 0
 	sizeIndex := windowSize - 1

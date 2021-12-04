@@ -24,7 +24,7 @@ func main() {
 	filePath := os.Args[1]
 	data, err := os.ReadFile(filePath)
 	check(err)
-	var commandArray = strings.Split(string(data), "\n")
+	commandArray := strings.Split(string(data), "\n")
 
 	horizontal, depth, aim := calculatePosition(commandArray, 0, 0, 0)
 
