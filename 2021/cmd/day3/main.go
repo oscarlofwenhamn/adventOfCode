@@ -1,6 +1,6 @@
 /*
 .:Adent of Code:.
-Day 2: Dive!
+Day 3: Binary Diagnostic
 
 Usage:
 go run main.go $INPUT_FILE
