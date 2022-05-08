@@ -23,6 +23,7 @@ type BingoCard struct {
 	rowMarks    [height]int
 	numbers     map[int][4]int
 	card        [height][width]int
+	bingo       bool
 }
 
 const (
@@ -79,11 +80,13 @@ func main() {
 		matrix[i%6] = numArr
 	}
 
-	bingo := false
+	var winningScores []int
 	for _, numberString := range strings.Split(stringArray[0], ",") {
+		bingo := false
+		var score int
 		number, _ := strconv.Atoi(numberString)
-		for i, card := range bingoCards {
-			if card.numbers[number][2] == 1 {
+		for _, card := range bingoCards {
+			if card.numbers[number][2] == 1 && !card.bingo {
 				x := card.numbers[number][0]
 				y := card.numbers[number][1]
 				card.columnMarks[y]++
@@ -93,39 +96,35 @@ func main() {
 				card.numbers[number] = arr
 
 				if card.rowMarks[x] == 5 {
-					fmt.Printf("Bingo on card %d, row %d!\n", i+1, y+1)
-					calculateWinningScore(card, card.card[x], number)
+					score = calculateWinningScore(card, card.card[x], number)
 					bingo = true
-					break
-				}
-				if card.columnMarks[y] == 5 {
-					fmt.Printf("Bingo on card %d, column %d!\n", i+1, x+1)
+					card.bingo = true
+				} else if card.columnMarks[y] == 5 {
 					var winner [5]int
 					for i := 0; i < 5; i++ {
 						winner[i] = card.card[i][y]
 					}
-					calculateWinningScore(card, winner, number)
+					score = calculateWinningScore(card, winner, number)
 					bingo = true
-					break
+					card.bingo = true
 				}
 			}
 		}
 		if bingo {
-			break
+			winningScores = append(winningScores, score)
 		}
 	}
+	fmt.Printf("Score of first bingo card is: %d\n", winningScores[0])
+	fmt.Printf("Score of last bingo card is: %d\n", winningScores[len(winningScores)-1])
 }
 
-func calculateWinningScore(card *BingoCard, winningNumbers [5]int, lastNumberCalled int) {
+func calculateWinningScore(card *BingoCard, winningNumbers [5]int, lastNumberCalled int) int {
 	var sum int
-	fmt.Println("Winning numbers:")
-	fmt.Println(winningNumbers)
-	fmt.Printf("Final number: %d\n", lastNumberCalled)
 	for val, arr := range card.numbers {
 		if arr[3] != 1 {
 			sum += val
 		}
 	}
 	product := sum * lastNumberCalled
-	fmt.Printf("Final score: %d * %d = %d\n", sum, lastNumberCalled, product)
+	return product
 }
