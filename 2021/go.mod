@@ -1,3 +1,3 @@
-module github.com/oscar.lofwenhamn/advent-of-code
+module github.com/oscarlofwenhamn/adventOfCode
 
-go 1.17
+go 1.18
