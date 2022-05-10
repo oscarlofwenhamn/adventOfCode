@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func check(e error) {
+func Check(e error) {
 	if e != nil {
 		panic(e)
 	}
@@ -13,6 +13,6 @@ func check(e error) {
 
 func ReadStringArrayFromFile(path string) []string {
 	input, err := os.ReadFile(path)
-	check(err)
+	Check(err)
 	return strings.Split(string(input), "\n")
 }
