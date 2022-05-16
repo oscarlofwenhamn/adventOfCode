@@ -2,8 +2,6 @@ package main
 
 import (
 	"testing"
-
-	"github.com/oscarlofwenhamn/adventOfCode/cmd/day6/model"
 )
 
 func Test_spendDays(t *testing.T) {
@@ -33,16 +31,23 @@ func Test_spendDays(t *testing.T) {
 			},
 			result: 5934,
 		},
+		{
+			name: "Validate 256 days",
+			args: args{
+				initialValues: []int{3, 4, 3, 1, 2},
+				days:          256,
+			},
+			result: 26984457539,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			spendDays(tt.args.initialValues, tt.args.days)
-			if len(lanternschool) != tt.result {
+			totalNumberOfFish := simulateLanternFish(tt.args.initialValues, tt.args.days)
+			if totalNumberOfFish != tt.result {
 				t.Fatalf("Lanternfish count not correct.\nExpected:\n%v\nActual:\n%v\n",
 					tt.result,
-					len(lanternschool))
+					totalNumberOfFish)
 			}
-			lanternschool = []*model.Lanternfish{}
 		})
 	}
 }

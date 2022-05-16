@@ -1,18 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"strconv"
 	"strings"
 
-	"github.com/oscarlofwenhamn/adventOfCode/cmd/day6/model"
 	"github.com/oscarlofwenhamn/adventOfCode/cmd/utils"
 )
 
-var lanternschool = []*model.Lanternfish{}
-var days int = 80
+const DAYS, TIMER_SIZE, ADULT_TIMER_RESET int = 256, 9, 6
 
 func main() {
+
+	days := flag.Int("days", DAYS, "Number of days to simulate")
+	flag.Parse()
 
 	input := utils.ReadStringArrayFromFile("./input")[0]
 	integerStrings := strings.Split(input, ",")
@@ -22,29 +24,34 @@ func main() {
 		utils.Check(err)
 		initialValues = append(initialValues, i)
 	}
-	spendDays(initialValues, days)
-	fmt.Printf("Lanternfish after %v: %v\n", days, len(lanternschool))
+
+	tot := simulateLanternFish(initialValues, *days)
+
+	fmt.Printf("Total number of fish: %v\n", tot)
 }
 
-func spendDays(initialValues []int, days int) {
-	for _, value := range initialValues {
-		lanternschool = append(lanternschool, &model.Lanternfish{Timer: value})
+func simulateLanternFish(initialValues []int, days int) int {
+	fishArray := [TIMER_SIZE]int{}
+
+	for _, v := range initialValues {
+		fishArray[v]++
 	}
 
 	for i := 0; i < days; i++ {
-
-		for _, fish := range lanternschool {
-			spendDay(fish)
-		}
-
+		spendDay(&fishArray)
 	}
+
+	var tot int
+	for _, v := range fishArray {
+		tot += v
+	}
+	return tot
 }
 
-func spendDay(fish *model.Lanternfish) {
-	if fish.Timer == 0 {
-		lanternschool = append(lanternschool, &model.Lanternfish{Timer: 8})
-		fish.Timer = 6
-	} else {
-		fish.Timer--
-	}
+func spendDay(arr *[TIMER_SIZE]int) {
+	curr, slice := arr[0], arr[1:]
+	slice[6] += curr
+	slice = append(slice, curr)
+
+	copy(arr[:], slice[:TIMER_SIZE])
 }
