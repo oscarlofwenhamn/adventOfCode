@@ -24,7 +24,7 @@ func Test_X(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			totalFuel := alignCrabs(tt.args.input)
+			totalFuel := alignCrabsMedian(tt.args.input)
 			if totalFuel != tt.result {
 				t.Fatalf("Lanternfish count not correct.\nExpected:\n%v\nActual:\n%v\n",
 					tt.result,
