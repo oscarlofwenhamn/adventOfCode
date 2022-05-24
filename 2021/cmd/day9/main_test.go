@@ -12,19 +12,23 @@ func Test_X(t *testing.T) {
 	tests := []struct {
 		name   string
 		args   args
-		result string
+		result int
 	}{
 		{
 			name: "Validate test input",
 			args: args{
 				input: []string{},
 			},
-			result: "",
+			result: 15,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Fatal("Not implemented!")
+			hMap := createMap(tt.args.input)
+			risk := calculateRisk(hMap)
+			if risk != tt.result {
+				t.Fatalf("Risk value incorrect!\nExpected: %v\nActual: %v\n", tt.result, risk)
+			}
 		})
 	}
 }
