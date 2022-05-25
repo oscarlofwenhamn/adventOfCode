@@ -17,7 +17,7 @@ func Test_X(t *testing.T) {
 		{
 			name: "Validate test input",
 			args: args{
-				input: []string{},
+				input: []string{"2199943210", "3987894921", "9856789892", "8767896789", "9899965678"},
 			},
 			result: 15,
 		},
