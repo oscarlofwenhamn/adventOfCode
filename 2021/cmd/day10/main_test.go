@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_X(t *testing.T) {
+func Test_Part_1(t *testing.T) {
 
 	type args struct {
 		input []string
@@ -12,19 +12,31 @@ func Test_X(t *testing.T) {
 	tests := []struct {
 		name   string
 		args   args
-		result string
+		result int
 	}{
 		{
 			name: "Validate test input",
 			args: args{
-				input: []string{},
+				input: []string{"[({(<(())[]>[[{[]{<()<>>",
+					"[(()[<>])]({[<{<<[]>>(",
+					"{([(<{}[<>[]}>{[]{[(<()>",
+					"(((({<>}<{<{<>}{[]{[]{}",
+					"[[<[([]))<([[{}[[()]]]",
+					"[{[{({}]{}}([{[{{{}}([]",
+					"{<[[]]>}<{[{[{[]{()[[[]",
+					"[<(<(<(<{}))><([]([]()",
+					"<{([([[(<>()){}]>(<<{{",
+					"<{([{{}}[<[[[<>{}]]]>[]]"},
 			},
-			result: "",
+			result: 26397,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Fatal("Not implemented!")
+			score := getErrorScore(tt.args.input)
+			if score != tt.result {
+				t.Fatalf("Score incorrect!\nExpected: %d\nActual: %d\n", tt.result, score)
+			}
 		})
 	}
 }
