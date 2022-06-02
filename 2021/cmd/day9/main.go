@@ -65,7 +65,7 @@ func calculateBasinValue(hMap models.HeightMap) int {
 
 func getBasinSize(point *models.Location, hMap *models.HeightMap) int {
 	var key [][]bool = make([][]bool, len(hMap.Locations))
-	for i, _ := range key {
+	for i := range key {
 		key[i] = make([]bool, len(hMap.Locations[i]))
 	}
 	return countNeighbours(point, hMap, key)
