@@ -17,6 +17,27 @@ func Test_Part_1(t *testing.T) {
 		{
 			name: "Validate test input",
 			args: args{
+				input: []string{"()"},
+			},
+			result: 0,
+		},
+		{
+			name: "Validate test input",
+			args: args{
+				input: []string{"(<>)"},
+			},
+			result: 0,
+		},
+		{
+			name: "Validate test input",
+			args: args{
+				input: []string{"{)"},
+			},
+			result: 3,
+		},
+		{
+			name: "Validate test input",
+			args: args{
 				input: []string{"[({(<(())[]>[[{[]{<()<>>",
 					"[(()[<>])]({[<{<<[]>>(",
 					"{([(<{}[<>[]}>{[]{[(<()>",
