@@ -50,20 +50,32 @@ func convertEntry(entry string) (ret []pair, err error) {
 		*results[i] = conv
 	}
 
+	var diagonal bool
+	deltaX, deltaY := 1, 1
+	if (yStart != yEnd) && (xStart != xEnd) {
+		diagonal = true
+	}
+
 	if xStart > xEnd {
-		xStart, xEnd = xEnd, xStart
+		deltaX = -1
 	}
 
 	if yStart > yEnd {
-		yStart, yEnd = yEnd, yStart
+		deltaY = -1
 	}
 
-	if (yStart != yEnd) && (xStart != xEnd) {
+	if diagonal {
+		x, y := xStart, yStart
+		for x != xEnd+deltaX {
+			ret = append(ret, pair{x, y})
+			x += deltaX
+			y += deltaY
+		}
 		return
 	}
 
-	for i := xStart; i <= xEnd; i++ {
-		for j := yStart; j <= yEnd; j++ {
+	for i := xStart; i != xEnd+deltaX; i += deltaX {
+		for j := yStart; j != yEnd+deltaY; j += deltaY {
 			ret = append(ret, pair{i, j})
 		}
 	}

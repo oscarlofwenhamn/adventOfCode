@@ -93,29 +93,17 @@ func Test_getVentLevels(t *testing.T) {
 		{name: "Works for single-node vent", args: args{[]pair{{0, 0}}}, want: map[int]int{1: 1}},
 		{name: "Works for multi-node vent", args: args{[]pair{{0, 0}, {0, 1}}}, want: map[int]int{1: 2}},
 		{name: "Works for vent overlap", args: args{[]pair{{0, 0}, {0, 1}, {0, 0}, {1, 0}}}, want: map[int]int{1: 2, 2: 1}},
-		// {name: "Works for for diagonal top left to bottom right", args: args{[]pair{{0, 0}, {0, 1}, {0, 0}, {1, 0}}}, want: map[int]int{1: 2, 2: 1}},
-		// {name: "Works for for diagonal bottom left to top right", args: args{[]pair{{0, 0}, {0, 1}, {0, 0}, {1, 0}}}, want: map[int]int{1: 2, 2: 1}},
-		// {name: "Works for for diagonal top right to bottom left", args: args{[]pair{{0, 0}, {0, 1}, {0, 0}, {1, 0}}}, want: map[int]int{1: 2, 2: 1}},
-		// {name: "Works for for diagonal top left to bottom right", args: args{[]pair{{0, 0}, {0, 1}, {0, 0}, {1, 0}}}, want: map[int]int{1: 2, 2: 1}},
+		{name: "Works for for diagonal top left to bottom right", args: args{[]pair{{0, 0}, {1, 1}, {2, 2}}}, want: map[int]int{1: 3}},
+		{name: "Works for for diagonal bottom left to top right", args: args{[]pair{{0, 2}, {1, 1}, {2, 0}}}, want: map[int]int{1: 3}},
+		{name: "Works for for diagonal top right to bottom left", args: args{[]pair{{2, 0}, {1, 1}, {0, 2}}}, want: map[int]int{1: 3}},
+		{name: "Works for for diagonal top left to bottom right", args: args{[]pair{{2, 2}, {1, 1}, {0, 0}}}, want: map[int]int{1: 3}},
+		{name: "Works for for diagonal overlap", args: args{[]pair{{2, 2}, {1, 1}, {0, 0}, {0, 2}, {1, 1}, {2, 0}}}, want: map[int]int{1: 4, 2: 1}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := getVentLevels(tt.args.coord); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getVentLevels() = %v, want %v", got, tt.want)
 			}
-		})
-	}
-}
-
-func Test_main(t *testing.T) {
-	tests := []struct {
-		name string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			main()
 		})
 	}
 }
