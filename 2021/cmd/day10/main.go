@@ -1,67 +1,32 @@
 package main
 
-var scores map[rune]int = map[rune]int{
-	')': 3,
-	']': 57,
-	'}': 1197,
-	'>': 25137,
-}
+import "errors"
 
 var openers []rune = []rune{'(', '[', '{', '<'}
+var closers map[rune]int = map[rune]int{')': 3, ']': 57, '}': 1197, '>': 25137}
 
-func main() {
+func main() {}
 
+type sequence struct {
+	str string
+	i   int
 }
 
-func getErrorScore(lines []string) (score int) {
-
-	for _, line := range lines {
-		err := validateChunk([]rune(line))
-		if err != -1 {
-			score += scores[err]
-		}
+func (s sequence) peek() (rune, error) {
+	if s.i+1 > len(s.str) {
+		return 0, errors.New("end of string")
 	}
-	return
+	return rune(s.str[s.i+1]), nil
 }
 
-func validateChunk(chunk []rune) rune {
-
-	var err rune
-	opener := chunk[0]
-	chunk = chunk[1:]
-	if isOpener(chunk[0]) {
-		err = validateChunk(chunk)
+func (s *sequence) pop() (rune, error) {
+	if s.i+1 > len(s.str) {
+		return 0, errors.New("end of string")
 	}
-	if err != -1 {
-		return err
-	}
-	if isInvalidCloser(opener, chunk[0]) {
-		return chunk[0]
-	}
-	// if next rune is opening; start new chunk, otherwise validate correct closing symbol or "throw"
-	return -1
+	s.i++
+	return rune(s.str[s.i]), nil
 }
 
-func isOpener(str rune) bool {
-
-	for _, o := range openers {
-		if str == o {
-			return true
-		}
-	}
-	return false
-}
-
-func isInvalidCloser(o rune, c rune) bool {
-	switch o {
-	case '(':
-		return c != ')'
-	case '[':
-		return c != ']'
-	case '{':
-		return c != '}'
-	case '<':
-		return c != '>'
-	}
-	panic("no valid opener supplied")
+func newSequence(s string) *sequence {
+	return &sequence{s, 0}
 }
